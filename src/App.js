@@ -24,7 +24,7 @@ function App() {
           e.lastIndexOf(">")
       );
         b.push({
-          line: `${i}`,
+          line: `${i+1}`,
           type: "library",
           value
         })
@@ -35,8 +35,36 @@ function App() {
           e.lastIndexOf("\"")
       );
         b.push({
-          line: `${i}`,
+          line: `${i+1}`,
           type: "text display",
+          value
+        })
+      
+        //TODO: agregar otros tipos de datos
+      }else if(e.includes("int") && e.includes("(") && e.includes(")")){
+        var value = e.substring(
+          e.indexOf(" ") + 1, 
+          e.lastIndexOf("(")
+      );
+        b.push({
+          line: `${i+1}`,
+          type: "function",
+          value
+        })
+       //TODO: agregar otros tipos de datos
+      }else if(e.includes("int") && e.includes("=")){
+        var value = e.substring(
+          e.indexOf("=")+1, 
+          e.length, 
+      );
+      var name = e.substring(
+        e.indexOf(" ")+1, 
+        e.indexOf("=")
+    );
+        b.push({
+          line: `${i+1}`,
+          type: "variable",
+          name,
           value
         })
         //console.log(e)
