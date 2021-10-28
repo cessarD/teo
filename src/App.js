@@ -1,17 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
 
+
+
+//Finalizar TODO
+//Preparar la documentacion
+
+
 function App() {
   function codigo() {
     
+
+
+    /* Codigo de prueba    PEGAR en el textarea y revisar consola
+    #include <iostream>
+using namespace std;
+
+int main() 
+{
+for(int i=0;i<10;i++)
+{
+   printf("Hello World");
+    cout << "Hello, World!";
+
+    return 0;
+}
+}
+
+    */
     let a=document.getElementById('code').value;
     //se eliminan filas vacias
     a=a.split('\n').filter(e => e!="")
     console.log(a)
 
+    //TODO: Eliminar comentarios del codigo en el array original
 
-
-    //simbolos
    
     var b=[]
     var scope=["global"]
@@ -32,7 +55,11 @@ function App() {
           value,
           scope:scope[scope.length-1]
         })
-        //console.log(e)
+       
+
+
+
+        //TODO:si pueden agregar la tokenizacion del bucle while
       }else if(e.includes("for")){
         var value = e.substring(
           e.indexOf("(") + 1, 
@@ -48,7 +75,7 @@ function App() {
           scope:scope[scope.length-1]
         })
       
-        //TODO: agregar otros tipos de datos
+      
       }else if(e.includes("cout")){
         var value = e.substring(
           e.indexOf("\"") + 1, 
@@ -61,7 +88,7 @@ function App() {
           scope:scope[scope.length-1]
         })
       
-        //TODO: agregar otros tipos de datos
+     
       }else if(e.includes("printf")){
         var value = e.substring(
           e.indexOf("\"") + 1, 
@@ -114,7 +141,11 @@ function App() {
       
     })
 
+
+
+    //agregar que en el div result se muestre todo el array b ya que alli esta la info para la tabla de simbolos
     console.log(b)
+
 
   }
   return (
@@ -125,7 +156,7 @@ function App() {
           <textarea id="code" onChange={codigo} >
 
           </textarea>
-          <div>h</div>
+          <div id="result">h</div>
         </div>
       </header>
     </div>
