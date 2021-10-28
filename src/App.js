@@ -17,7 +17,10 @@ function App() {
     var scope=["global"]
     a.forEach((e,i)=>{
       //limpieza del elemento
-      e=e.replace(";","")
+      if(e[e.length-1]==";"){
+        e=e.replace(";","")
+      }
+  
       if(e.includes("#include")){
         var value = e.substring(
           e.indexOf("<") + 1, 
@@ -30,6 +33,22 @@ function App() {
           scope:scope[scope.length-1]
         })
         //console.log(e)
+      }else if(e.includes("for")){
+        var value = e.substring(
+          e.indexOf("(") + 1, 
+          e.lastIndexOf(")")
+      );
+      value=value.split(";");
+        b.push({
+          line: `${i+1}`,
+          type: "bucle",
+          initial_value:value[0],
+          limit_value:value[1],
+          step:value[2],
+          scope:scope[scope.length-1]
+        })
+      
+        //TODO: agregar otros tipos de datos
       }else if(e.includes("cout")){
         var value = e.substring(
           e.indexOf("\"") + 1, 
@@ -87,10 +106,10 @@ function App() {
         //console.log(e)
       }else if(e=="{"){
         scope.push(a[i-1])
-        console.log(scope)
+     
       }else if(e=="}"){
         scope.pop()
-        console.log(scope)
+     
       }
       
     })
