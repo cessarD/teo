@@ -14,7 +14,7 @@ function App() {
     //simbolos
    
     var b=[]
-
+    var scope=["global"]
     a.forEach((e,i)=>{
       //limpieza del elemento
       e=e.replace(";","")
@@ -26,7 +26,8 @@ function App() {
         b.push({
           line: `${i+1}`,
           type: "library",
-          value
+          value,
+          scope:scope[scope.length-1]
         })
         //console.log(e)
       }else if(e.includes("cout")){
@@ -37,7 +38,21 @@ function App() {
         b.push({
           line: `${i+1}`,
           type: "text display",
-          value
+          value,
+          scope:scope[scope.length-1]
+        })
+      
+        //TODO: agregar otros tipos de datos
+      }else if(e.includes("printf")){
+        var value = e.substring(
+          e.indexOf("\"") + 1, 
+          e.lastIndexOf("\"")
+      );
+        b.push({
+          line: `${i+1}`,
+          type: "text display",
+          value,
+          scope:scope[scope.length-1]
         })
       
         //TODO: agregar otros tipos de datos
@@ -49,7 +64,8 @@ function App() {
         b.push({
           line: `${i+1}`,
           type: "function",
-          value
+          value,
+          scope:scope[scope.length-1]
         })
        //TODO: agregar otros tipos de datos
       }else if(e.includes("int") && e.includes("=")){
@@ -65,9 +81,16 @@ function App() {
           line: `${i+1}`,
           type: "variable",
           name,
-          value
+          value,
+          scope:scope[scope.length-1]
         })
         //console.log(e)
+      }else if(e=="{"){
+        scope.push(a[i-1])
+        console.log(scope)
+      }else if(e=="}"){
+        scope.pop()
+        console.log(scope)
       }
       
     })
