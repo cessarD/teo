@@ -1,30 +1,10 @@
 import './App.css';
 
 
-
-//Finalizar TODO
-//Preparar la documentacion
-
-
 function App() {
   function codigo() {
     
 
-
-    /* Codigo de prueba    PEGAR en el textarea y revisar consola
-#include <iostream>
-using namespace std;
-
-int main() 
-{
-
-
-
-    return 0;
-
-}
-
-*/
     let a=document.getElementById('code').value;
     //se eliminan filas vacias
     a=a.split('\n').filter(e => e!=="")
@@ -286,18 +266,92 @@ int main()
 
     //Parte de  la tabla
     var answer = ''
+    answer += ` [<br/>`
     for (let i = 0; i < b.length; i++) {
       //console.log(Object.values(b[i]))
-      answer += Object.values(b[i])
-      answer += "<br/>"
+      if(b[i].type!="comment"){
+        if(b[i].type!="bucle" && b[i].type!="Reject"){
+        answer += `{
+          <b>Linea:</b>${b[i].line},<br/>
+          <b>Tipo:</b>${b[i].type},<br/>
+          <b>valor:</b>${b[i].value},<br/>
+          <b> alcance:</b>${b[i].scope},<br/>
+          `
+          answer += "},<br/>"
+      }else if(b[i].type=="Reject"){
+      
+          answer += `{
+            <b>Linea:</b>${b[i].line},<br/>
+            <b>ERROR</b>
+            
+            `
+            answer += "},<br/>"
+        
+      }else{
+        answer += `{
+          <b>Linea:</b>${b[i].line},<br/>
+          <b>Tipo:</b>${b[i].type},<br/>
+          <b>valor inicial:</b>${b[i].initial_value},<br/>
+          <b>valor limite:</b>${b[i].limit_value},<br/>
+          <b>paso:</b>${b[i].step},<br/>
+          <b> alcance:</b>${b[i].scope},<br/>
+          `
+          answer += "},<br/>"
+      }
     }
-    document.getElementById('result').innerHTML = answer;
-    //console.log(answer)
+  
+    }
+    answer += "]"
+    document.getElementById('tokens').innerHTML = answer;
 
-    //Para imprimir en consola el objeto
+    var tabla = ''
+    var tbodyRef = document.getElementById('simbolos').getElementsByTagName('tbody')[0];
+
+    for (let i = 0; i < b.length; i++) {
+      //console.log(Object.values(b[i]))
+      if(b[i].type!="comment"){
+        if(b[i].type!="bucle"  && b[i].type!="Reject"){
+        tabla+=`<tr>
+          <td>${b[i].line}</td>
+          <td>${b[i].type}</td>
+          <td>${b[i].value}</td>
+          <td>${b[i].scope}</td>
+          </tr>`
+      }else if(b[i].type=="Reject"){
+       
+        tabla+=`<tr>
+          <td>${b[i].line}</td>
+          <td colspan=3>ERROR</td>
+        
+          </tr>`
+      } else {
+        tabla+=`<tr>
+        <td>${b[i].line}</td>
+        <td>${b[i].type}</td>
+        <td>inicial:${b[i].initial_value}<br>
+        limite:${b[i].limit_value},<br>
+        paso:${b[i].step}
+        </td>
+        <td>${b[i].scope}</td>
+        </tr>`
+    
+    }
+      }
+    }
+    tbodyRef.innerHTML=tabla
+  
+ 
     console.log(b)
 
 
+  }
+  function tableview(){
+    document.getElementById("result1").style.display="none"
+    document.getElementById("result2").style.display="block"
+  }
+  function tokenview(){
+    document.getElementById("result2").style.display="none"
+    document.getElementById("result1").style.display="block"
   }
   return (
     <div className="App">
@@ -310,7 +364,30 @@ int main()
           <textarea id="code" onChange={codigo} cols="50" rows="15" >
 
           </textarea>
-          <div id="result"> Resultados </div>
+          <div id="result" style={{height:"100%"}}> Resultados 
+          <div id="result1">
+          <button onClick={tableview}>Cambiar a tabla</button>
+          <span id="tokens">
+
+          </span>
+          </div>
+          <div id="result2" style={{display:"none"}} >
+            <button onClick={tokenview}>Cambiar a tokens</button>
+            <table id="simbolos" border="1">
+              <thead>
+                <tr>
+                <th>Linea</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Alcance</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+           </div>
         </div>
       </header>
     </div>
