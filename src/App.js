@@ -18,20 +18,13 @@ using namespace std;
 int main() 
 {
 
-    cout << "Hello, World!";
-    cin>> xd;
-    double hola = 1.2;
-    int xd = 1;
-    char a = 'a';
-    string B = "B";
-    bool flag = true;
-    double C = 25.1456;
+
 
     return 0;
 
 }
 
-    */
+*/
     let a=document.getElementById('code').value;
     //se eliminan filas vacias
     a=a.split('\n').filter(e => e!=="")
@@ -46,7 +39,6 @@ int main()
     var name = ""
 
     a.forEach((e,i)=>{
-      //limpieza del elemento
       if(e[e.length-1]===";"){
         e=e.replace(";","")
       }
@@ -63,9 +55,34 @@ int main()
           scope:scope[scope.length-1]
         })
        
+      }
+      //Comentarios lineales
+      else if(e.includes("//")){
+        value = e.substring(
+          e.indexOf("/") + 2
+      );
+        b.push({
+          line: `${i+1}`,
+          type: "comment",
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      //Comentarios multilinea
+      else if(e.includes("/*")){
+        value = e.substring(
+          e.substring("*")
+      );
+        b.push({
+          line: `${i+1}`,
+          type: "comment",
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      
 
-        //TODO:si pueden agregar la tokenizacion del bucle while
-      }else if(e.includes("for")){
+      else if(e.includes("for")){
         value = e.substring(
           e.indexOf("(") + 1, 
           e.lastIndexOf(")")
@@ -92,9 +109,8 @@ int main()
           value,
           scope:scope[scope.length-1]
         })
-      
-     
       }
+
       else if(e.includes("cin")){
         value = e.substring(
           e.indexOf(">>") + 3, 
