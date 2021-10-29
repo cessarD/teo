@@ -28,9 +28,7 @@ int main()
     let a=document.getElementById('code').value;
     //se eliminan filas vacias
     a=a.split('\n').filter(e => e!=="")
-    console.log(a)
-
-    //TODO: Eliminar comentarios del codigo en el array original
+   // console.log(a)
 
    
     var b=[]
@@ -42,7 +40,7 @@ int main()
       if(e[e.length-1]===";"){
         e=e.replace(";","")
       }
-  
+      //Libreria
       if(e.includes("#include")){
           value = e.substring(
           e.indexOf("<") + 1, 
@@ -68,20 +66,7 @@ int main()
           scope:scope[scope.length-1]
         })
       }
-      //Comentarios multilinea
-      else if(e.includes("/*")){
-        value = e.substring(
-          e.substring("*")
-      );
-        b.push({
-          line: `${i+1}`,
-          type: "comment",
-          value,
-          scope:scope[scope.length-1]
-        })
-      }
-      
-
+    //Bucle for
       else if(e.includes("for")){
         value = e.substring(
           e.indexOf("(") + 1, 
@@ -95,10 +80,10 @@ int main()
           limit_value:value[1],
           step:value[2],
           scope:scope[scope.length-1]
-        })
-      
-      
-      }else if(e.includes("cout")){
+        })    
+      }
+      //Input y output
+      else if(e.includes("cout")){
         value = e.substring(
           e.indexOf("\"") + 1, 
           e.lastIndexOf("\"")
@@ -123,20 +108,6 @@ int main()
         })
       }
 
-      else if(e.includes("return")){
-        value = e.substring(
-          e.indexOf("n") + 1, 
-      );
-        b.push({
-          line: `${i+1}`,
-          type: "Break point",
-          value,
-          scope:scope[scope.length-1]
-        })
-      }
-
-      
-      
       else if(e.includes("printf")){
          value = e.substring(
           e.indexOf("\"") + 1, 
@@ -149,8 +120,9 @@ int main()
           scope:scope[scope.length-1]
         })
       
-        //TODO: agregar otros tipos de datos
-      }else if(e.includes("int") && e.includes("(") && e.includes(")")){
+      }
+      //Funcion
+      else if(e.includes("int") && e.includes("(") && e.includes(")")){
          value = e.substring(
           e.indexOf(" ") + 1, 
           e.lastIndexOf("(")
@@ -161,8 +133,21 @@ int main()
           value,
           scope:scope[scope.length-1]
         })
-       //TODO: agregar otros tipos de datos
-      }else if(e.includes("int") && e.includes("=")){
+      }
+      //Breakpoint
+      else if(e.includes("return")){
+        value = e.substring(
+          e.indexOf("n") + 1, 
+      );
+        b.push({
+          line: `${i+1}`,
+          type: "Break point",
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      //Tipos de datos
+      else if(e.includes("int") && e.includes("=")){
          value = e.substring(
           e.indexOf("=")+1, 
           e.length, 
@@ -264,23 +249,39 @@ int main()
           value,
           scope:scope[scope.length-1]
         })
-        //console.log(e)
       }
-      
-      
+      //Inicio y fin de bloque
       else if(e==="{"){
         scope.push(a[i-1])
      
       }else if(e==="}"){
         scope.pop()
-     
+      }
+      //Palabras rechazadas al inicio de linea
+      else {
+        value = e.substring(
+          e.indexOf(" ")+4);
+        b.push({
+          line: `${i+1}`,
+          type: "Reject",
+          value,
+          scope:scope[scope.length-1]
+        })
       }
       
     })
 
+    //Parte de  la tabla
+    var answer = ''
+    for (let i = 0; i < b.length; i++) {
+      //console.log(Object.values(b[i]))
+      answer += Object.values(b[i])
+      answer += "<br/>"
+    }
+    document.getElementById('result').innerHTML = answer;
+    //console.log(answer)
 
-
-    //agregar que en el div result se muestre todo el array b ya que alli esta la info para la tabla de simbolos
+    //Para imprimir en consola el objeto
     console.log(b)
 
 
@@ -288,7 +289,7 @@ int main()
   return (
     <div className="App">
       <header className="App-header">
-        <div id="result">
+        <div>
             <p>Lenguaje tokenizador: Javascript</p>
             <p>Lenguaje tokenizado: C++</p>
         </div>
