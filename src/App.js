@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 
 
@@ -13,24 +12,29 @@ function App() {
 
 
     /* Codigo de prueba    PEGAR en el textarea y revisar consola
-    #include <iostream>
+#include <iostream>
 using namespace std;
 
 int main() 
 {
-for(int i=0;i<10;i++)
-{
-   printf("Hello World");
+
     cout << "Hello, World!";
+    cin>> xd;
+    double hola = 1.2;
+    int xd = 1;
+    char a = 'a';
+    string B = "B";
+    bool flag = true;
+    double C = 25.1456;
 
     return 0;
-}
+
 }
 
     */
     let a=document.getElementById('code').value;
     //se eliminan filas vacias
-    a=a.split('\n').filter(e => e!="")
+    a=a.split('\n').filter(e => e!=="")
     console.log(a)
 
     //TODO: Eliminar comentarios del codigo en el array original
@@ -38,14 +42,17 @@ for(int i=0;i<10;i++)
    
     var b=[]
     var scope=["global"]
+    var value = ""
+    var name = ""
+
     a.forEach((e,i)=>{
       //limpieza del elemento
-      if(e[e.length-1]==";"){
+      if(e[e.length-1]===";"){
         e=e.replace(";","")
       }
   
       if(e.includes("#include")){
-        var value = e.substring(
+          value = e.substring(
           e.indexOf("<") + 1, 
           e.lastIndexOf(">")
       );
@@ -57,11 +64,9 @@ for(int i=0;i<10;i++)
         })
        
 
-
-
         //TODO:si pueden agregar la tokenizacion del bucle while
       }else if(e.includes("for")){
-        var value = e.substring(
+        value = e.substring(
           e.indexOf("(") + 1, 
           e.lastIndexOf(")")
       );
@@ -77,7 +82,7 @@ for(int i=0;i<10;i++)
       
       
       }else if(e.includes("cout")){
-        var value = e.substring(
+        value = e.substring(
           e.indexOf("\"") + 1, 
           e.lastIndexOf("\"")
       );
@@ -89,8 +94,35 @@ for(int i=0;i<10;i++)
         })
       
      
-      }else if(e.includes("printf")){
-        var value = e.substring(
+      }
+      else if(e.includes("cin")){
+        value = e.substring(
+          e.indexOf(">>") + 3, 
+      );
+        b.push({
+          line: `${i+1}`,
+          type: "input text",
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+
+      else if(e.includes("return")){
+        value = e.substring(
+          e.indexOf("n") + 1, 
+      );
+        b.push({
+          line: `${i+1}`,
+          type: "Break point",
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+
+      
+      
+      else if(e.includes("printf")){
+         value = e.substring(
           e.indexOf("\"") + 1, 
           e.lastIndexOf("\"")
       );
@@ -103,7 +135,7 @@ for(int i=0;i<10;i++)
       
         //TODO: agregar otros tipos de datos
       }else if(e.includes("int") && e.includes("(") && e.includes(")")){
-        var value = e.substring(
+         value = e.substring(
           e.indexOf(" ") + 1, 
           e.lastIndexOf("(")
       );
@@ -115,11 +147,97 @@ for(int i=0;i<10;i++)
         })
        //TODO: agregar otros tipos de datos
       }else if(e.includes("int") && e.includes("=")){
-        var value = e.substring(
+         value = e.substring(
           e.indexOf("=")+1, 
           e.length, 
       );
-      var name = e.substring(
+      name = e.substring(
+        e.indexOf(" ")+1, 
+        e.indexOf("=")
+    );
+        b.push({
+          line: `${i+1}`,
+          type: "variable",
+          name,
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      
+      else if(e.includes("float") && e.includes("=")){
+         value = e.substring(
+          e.indexOf("=")+1, 
+          e.length, 
+      );
+      name = e.substring(
+        e.indexOf(" ")+1, 
+        e.indexOf("=")
+    );
+        b.push({
+          line: `${i+1}`,
+          type: "variable",
+          name,
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      else if(e.includes("char") && e.includes("=")){
+         value = e.substring(
+          e.indexOf("=")+1, 
+          e.length, 
+      );
+      name = e.substring(
+        e.indexOf(" ")+1, 
+        e.indexOf("=")
+    );
+        b.push({
+          line: `${i+1}`,
+          type: "variable",
+          name,
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      else if(e.includes("string") && e.includes("=")){
+         value = e.substring(
+          e.indexOf("=")+1, 
+          e.length, 
+      );
+      name = e.substring(
+        e.indexOf(" ")+1, 
+        e.indexOf("=")
+    );
+        b.push({
+          line: `${i+1}`,
+          type: "variable",
+          name,
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      else if(e.includes("bool") && e.includes("=")){
+         value = e.substring(
+          e.indexOf("=")+1, 
+          e.length, 
+      );
+       name = e.substring(
+        e.indexOf(" ")+1, 
+        e.indexOf("=")
+    );
+        b.push({
+          line: `${i+1}`,
+          type: "variable",
+          name,
+          value,
+          scope:scope[scope.length-1]
+        })
+      }
+      else if(e.includes("double") && e.includes("=")){
+         value = e.substring(
+          e.indexOf("=")+1, 
+          e.length, 
+      );
+      name = e.substring(
         e.indexOf(" ")+1, 
         e.indexOf("=")
     );
@@ -131,10 +249,13 @@ for(int i=0;i<10;i++)
           scope:scope[scope.length-1]
         })
         //console.log(e)
-      }else if(e=="{"){
+      }
+      
+      
+      else if(e==="{"){
         scope.push(a[i-1])
      
-      }else if(e=="}"){
+      }else if(e==="}"){
         scope.pop()
      
       }
@@ -151,12 +272,15 @@ for(int i=0;i<10;i++)
   return (
     <div className="App">
       <header className="App-header">
-   
-        <div style={{display: 'flex',flexdirection: 'row',justifyContent:"space-around",width:"100%"}}>
-          <textarea id="code" onChange={codigo} >
+        <div id="result">
+            <p>Lenguaje tokenizador: Javascript</p>
+            <p>Lenguaje tokenizado: C++</p>
+        </div>
+        <div style={{display: 'flex',flexdirection: 'row',justifyContent:"space-around",width:"100%", margin:50}}>
+          <textarea id="code" onChange={codigo} cols="50" rows="15" >
 
           </textarea>
-          <div id="result">h</div>
+          <div id="result"> Resultados </div>
         </div>
       </header>
     </div>
