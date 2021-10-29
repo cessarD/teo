@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/teo/static/css/main.a617e044.chunk.css",
+    "main.js": "/teo/static/js/main.e751c671.chunk.js",
+    "main.js.map": "/teo/static/js/main.e751c671.chunk.js.map",
+    "runtime-main.js": "/teo/static/js/runtime-main.45bbf6e5.js",
+    "runtime-main.js.map": "/teo/static/js/runtime-main.45bbf6e5.js.map",
+    "static/js/2.74532fe5.chunk.js": "/teo/static/js/2.74532fe5.chunk.js",
+    "static/js/2.74532fe5.chunk.js.map": "/teo/static/js/2.74532fe5.chunk.js.map",
+    "static/js/3.74cdf54f.chunk.js": "/teo/static/js/3.74cdf54f.chunk.js",
+    "static/js/3.74cdf54f.chunk.js.map": "/teo/static/js/3.74cdf54f.chunk.js.map",
+    "index.html": "/teo/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/teo/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.74532fe5.chunk.js.LICENSE.txt": "/teo/static/js/2.74532fe5.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.45bbf6e5.js",
+    "static/js/2.74532fe5.chunk.js",
+    "static/css/main.a617e044.chunk.css",
+    "static/js/main.e751c671.chunk.js"
+  ]
+}
