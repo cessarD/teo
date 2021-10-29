@@ -146,6 +146,19 @@ int main()
           scope:scope[scope.length-1]
         })
       }
+
+      else if(e.includes("using")){
+        value = e.substring(
+         e.indexOf("g") + 1, 
+     );
+       b.push({
+         line: `${i+1}`,
+         type: "function",
+         value,
+         scope:scope[scope.length-1]
+       })
+     
+     }
       //Tipos de datos
       else if(e.includes("int") && e.includes("=")){
          value = e.substring(
